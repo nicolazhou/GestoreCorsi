@@ -6,6 +6,10 @@ package it.polito.tdp.corsi;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import java.util.*;
+
+import it.polito.tdp.corsi.model.Corso;
 import it.polito.tdp.corsi.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,10 +51,70 @@ public class FXMLController {
     @FXML
     void corsiPerPeriodo(ActionEvent event) {
     	
+    	txtRisultato.clear();
+    	
+    	String input = txtPeriodo.getText();
+    	
+    	int inputTime = 0;
+    	
+    	try {
+    		
+    		inputTime = Integer.parseInt(input);
+    		
+    	} catch(NumberFormatException e) {
+    		
+    		txtRisultato.setText("Inserted Value is not an integer value");
+    		return;
+    	}
+    	
+    	if(inputTime < 1 || inputTime > 2) {
+    		txtRisultato.setText("Inserisci  1 o 2");
+    		return;
+    	}
+    	
+    	
+    	List<Corso> result = model.getCorsiByPeriodo(inputTime);
+    	
+    	txtRisultato.setText("Ho trovato " + result.size() + " corsi. \n");
+    	
+    	for(Corso c : result) {
+    		txtRisultato.appendText(""+ c + "\n");
+    	}
+    	
+    	
     }
 
     @FXML
     void numeroStudenti(ActionEvent event) {
+    	
+txtRisultato.clear();
+    	
+    	String input = txtPeriodo.getText();
+    	
+    	int inputTime = 0;
+    	
+    	try {
+    		
+    		inputTime = Integer.parseInt(input);
+    		
+    	} catch(NumberFormatException e) {
+    		
+    		txtRisultato.setText("Inserted Value is not an integer value");
+    		return;
+    	}
+    	
+    	if(inputTime < 1 || inputTime > 2) {
+    		txtRisultato.setText("Inserisci  1 o 2");
+    		return;
+    	}
+    	
+       	Map<Corso, Integer> result = model.getCorsiIscritti(inputTime);
+       	
+    	for(Corso c : result.keySet()) {
+    	//	System.out.println(c);
+    		txtRisultato.appendText(""+ c + " numero iscritti = " + result.get(c) + "\n");
+    	}
+    	
     	
     }
 
