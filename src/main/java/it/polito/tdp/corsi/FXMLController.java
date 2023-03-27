@@ -10,7 +10,9 @@ import java.util.ResourceBundle;
 import java.util.*;
 
 import it.polito.tdp.corsi.model.Corso;
+import it.polito.tdp.corsi.model.Divisione;
 import it.polito.tdp.corsi.model.Model;
+import it.polito.tdp.corsi.model.Studente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -87,7 +89,7 @@ public class FXMLController {
     @FXML
     void numeroStudenti(ActionEvent event) {
     	
-txtRisultato.clear();
+    	txtRisultato.clear();
     	
     	String input = txtPeriodo.getText();
     	
@@ -120,14 +122,47 @@ txtRisultato.clear();
 
     @FXML
     void stampaDivisione(ActionEvent event) {
-
+    	
+    	txtRisultato.clear();
+    	
+    	String input = txtCorso.getText(); 
+    	
+    	if(input.isEmpty()) {
+    		txtRisultato.setText("Inserire codice di un corso");
+    		return;
+    	}
+    	
+    	
+    	for(Divisione d : model.getDivisioneIscrittiByCorso(input)) {
+    		txtRisultato.appendText(d + "\n");
+    	}
+    	
+    	
     }
 
     @FXML
     void stampaStudenti(ActionEvent event) {
-
+    	
+    	txtRisultato.clear();
+    	
+    	String input = txtCorso.getText(); 
+    	
+    	if(input.isEmpty()) {
+    		txtRisultato.setText("Inserire codice di un corso");
+    		return;
+    	}
+    	
+    	List<Studente> result = model.getIscrittiByCorso(input);
+    	
+    	txtRisultato.setText("Ci sono " + result.size() + " studenti \n");
+    	for(Studente s : result) {
+    		txtRisultato.appendText(s + "\n");
+    	}
+    	
+    	
     }
-
+    
+    
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert txtPeriodo != null : "fx:id=\"txtPeriodo\" was not injected: check your FXML file 'Scene.fxml'.";
